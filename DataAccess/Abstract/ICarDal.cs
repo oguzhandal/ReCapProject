@@ -1,13 +1,12 @@
-﻿using DataAccess.Concrete.EntityFramework;
+﻿using Core.DataAccess;
 using Entites.Concrete;
-using System;
+using Entities.DTOs;
 using System.Collections.Generic;
-using System.Text;
 
 namespace DataAccess.Abstract
 {
     public interface ICarDal : IEntityRepository<Car>
     {
-
+        List<CarDetailDto> GetCarDetails();
     }
 }
