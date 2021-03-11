@@ -18,7 +18,7 @@ namespace ConsoleUI
             //addedColors(colorManeger);
             //BrandTest();
             CarManeger carManeger = new CarManeger(new EfCarDal());
-            foreach (var car in carManeger.GetCarDetails())
+            foreach (var car in carManeger.GetCarDetails().Data)
             {
                 System.Console.WriteLine(car.CarName+" / "+car.BrandName);
             }
@@ -28,7 +28,7 @@ namespace ConsoleUI
         private static void BrandTest()
         {
             BrandManeger brandManeger = new BrandManeger(new EfBrandDal());
-            foreach (var brand in brandManeger.GetAll())
+            foreach (var brand in brandManeger.GetAll().Data)
             {
                 System.Console.WriteLine(brand.BrandName);
             }
@@ -79,11 +79,11 @@ namespace ConsoleUI
 
         private static void getCarsBtBrandAndColorId(CarManeger carManeger)
         {
-            foreach (var item in carManeger.GetCarsByBrandId(1))
+            foreach (var item in carManeger.GetCarsByBrandId(1).Data)
             {
                 System.Console.WriteLine("Car name: " + item.CarName + " BrandId: " + item.BrandId);
             }
-            foreach (var item in carManeger.GetCarsByColorId(1))
+            foreach (var item in carManeger.GetCarsByColorId(1).Data)
             {
                 System.Console.WriteLine("Car Name " + item.CarName + " colorId: " + item.ColorId);
             }
