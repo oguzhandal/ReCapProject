@@ -2,6 +2,7 @@
 using DataAccess.Concrete.EntityFramework;
 using Entites.Concrete;
 using Entities.Concrete;
+using System.Collections.Generic;
 
 namespace ConsoleUI
 {
@@ -9,25 +10,40 @@ namespace ConsoleUI
     {
         static void Main(string[] args)
         {
-            //carDeleteTest();
-
-            //getCarsBtBrandAndColorId(carManeger);
-
+            //carDeleteTest
+            //getCarsBtBrandAndColorId(carManeger
             //addedCars(brandManeger);
-
             //addedColors(colorManeger);
             //BrandTest();
-            CarManeger carManeger = new CarManeger(new EfCarDal());
+            //GetCarDetailsTest();
+
+            UserManager userManager = new UserManager(new EfUserDal());
+            List<User> userList = new List<User>
+            {
+                new User { FirstName = "oguzhan", LastName = "dal", Email = "oguzhan@gmail.com", Password = "oguzhanD" },
+                
+            };
+            foreach (var user in userList)
+            {
+                userManager.Add(user);
+                System.Console.WriteLine("Kullanıcı + " + user.FirstName + " " + user.LastName + " eklendi");
+
+            }
+
+        }
+
+        private static void GetCarDetailsTest()
+        {
+            CarManager carManeger = new CarManager(new EfCarDal());
             foreach (var car in carManeger.GetCarDetails().Data)
             {
-                System.Console.WriteLine(car.CarName+" / "+car.BrandName);
+                System.Console.WriteLine(car.CarName + " / " + car.BrandName);
             }
         }
 
-
         private static void BrandTest()
         {
-            BrandManeger brandManeger = new BrandManeger(new EfBrandDal());
+            BrandManager brandManeger = new BrandManager(new EfBrandDal());
             foreach (var brand in brandManeger.GetAll().Data)
             {
                 System.Console.WriteLine(brand.BrandName);
@@ -36,9 +52,9 @@ namespace ConsoleUI
 
         private static void carDeleteTest()
         {
-            CarManeger carManeger = new CarManeger(new EfCarDal());
-            BrandManeger brandManeger = new BrandManeger(new EfBrandDal());
-            ColorManeger colorManeger = new ColorManeger(new EfColorDal());
+            CarManager carManeger = new CarManager(new EfCarDal());
+            BrandManager brandManeger = new BrandManager(new EfBrandDal());
+            ColorManager colorManeger = new ColorManager(new EfColorDal());
             Car car1 = new Car()
             {
                 CarId = 2,
@@ -53,7 +69,7 @@ namespace ConsoleUI
             carManeger.Delete(car1);
         }
 
-        private static void addedColors(ColorManeger colorManeger)
+        private static void addedColors(ColorManager colorManeger)
         {
             //consol da kısa yoldan renk girmek için yazıldı
             for (int i = 1; i <= 10; i++)
@@ -65,7 +81,7 @@ namespace ConsoleUI
             }
         }
 
-        private static void addedCars(BrandManeger brandManeger)
+        private static void addedCars(BrandManager brandManeger)
         {
             //Sıralı bir şekilde kendi istediğim kadar tabloya Araba modeli ekledim
             for (int i = 1; i <= 10; i++)
@@ -77,7 +93,7 @@ namespace ConsoleUI
             }
         }
 
-        private static void getCarsBtBrandAndColorId(CarManeger carManeger)
+        private static void getCarsBtBrandAndColorId(CarManager carManeger)
         {
             foreach (var item in carManeger.GetCarsByBrandId(1).Data)
             {

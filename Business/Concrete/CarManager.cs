@@ -10,11 +10,11 @@ using System.Collections.Generic;
 
 namespace Business.Concrete
 {
-    public class CarManeger : ICarService
+    public class CarManager : ICarService
     {
         ICarDal _carDal;
 
-        public CarManeger(ICarDal carDal)
+        public CarManager(ICarDal carDal)
         {
             _carDal = carDal;
 

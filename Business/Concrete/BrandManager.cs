@@ -8,10 +8,10 @@ using System.Collections.Generic;
 
 namespace Business.Concrete
 {
-    public class BrandManeger : IBrandService
+    public class BrandManager : IBrandService
     {
         IBrandDal _brandDal;
-        public BrandManeger(IBrandDal brandDal)
+        public BrandManager(IBrandDal brandDal)
         {
             _brandDal = brandDal;
         }
