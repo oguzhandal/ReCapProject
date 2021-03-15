@@ -2,6 +2,7 @@
 using DataAccess.Concrete.EntityFramework;
 using Entites.Concrete;
 using Entities.Concrete;
+using System;
 using System.Collections.Generic;
 
 namespace ConsoleUI
@@ -17,11 +18,31 @@ namespace ConsoleUI
             //BrandTest();
             //GetCarDetailsTest();
 
+            //UserAdd();
+            newRentalAdd();
+
+        }
+
+        private static void newRentalAdd()
+        {
+            RentalManager rentalManager = new RentalManager(new EfRentalDal());
+            rentalManager.Add(new Rental { CarId = 5, CustomerId = 1, RentDate = DateTime.Now, ReturnDate = DateTime.Now.AddDays(7) });
+            rentalManager.Add(new Rental { CarId = 5, CustomerId = 2, RentDate = DateTime.Now, ReturnDate =DateTime.Now.AddDays(1) });
+            rentalManager.Add(new Rental { CarId = 5, CustomerId = 3, RentDate = DateTime.Now, ReturnDate = DateTime.Now.AddDays(2) });
+
+        }
+
+        private static void UserAdd()
+        {
             UserManager userManager = new UserManager(new EfUserDal());
             List<User> userList = new List<User>
             {
-                new User { FirstName = "oguzhan", LastName = "dal", Email = "oguzhan@gmail.com", Password = "oguzhanD" },
-                
+                new User { FirstName = "Dünya", LastName = "dal", Email = "Dunya@gmail.com", Password = "DunyaDal" },
+                new User{FirstName="Bulut",LastName="yılmaz",Email="bulutyılmaz@hotmail.com",Password="bulutyılmaz"},
+                new User{FirstName="Deniz",LastName="Özgür",Email="DOzgur@hotmail.com",Password="ozgurDeniz"},
+                new User{FirstName="Özge",LastName="Doğan",Email="OzgeDogan@hotmail.com",Password="OzgeDogan"},
+
+
             };
             foreach (var user in userList)
             {
@@ -29,7 +50,6 @@ namespace ConsoleUI
                 System.Console.WriteLine("Kullanıcı + " + user.FirstName + " " + user.LastName + " eklendi");
 
             }
-
         }
 
         private static void GetCarDetailsTest()
