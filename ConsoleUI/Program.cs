@@ -19,7 +19,7 @@ namespace ConsoleUI
             //GetCarDetailsTest();
 
             //UserAdd();
-            newRentalAdd();
+          //  newRentalAdd();
 
         }
 

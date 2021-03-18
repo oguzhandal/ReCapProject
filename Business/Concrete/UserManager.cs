@@ -31,7 +31,7 @@ namespace Business.Concrete
             return new SuccessResult(Messages.Deleted);
         }
 
-        public IDataResult<User> Get(int id)
+        public IDataResult<User> GetByUserId(int id)
         {
             return new SuccessDataResult<User>(_userDal.Get(u => u.Id == id));
         }
@@ -43,6 +43,7 @@ namespace Business.Concrete
 
         public IResult Update(User user)
         {
+            _userDal.Update(user);
             return new SuccessResult(Messages.Updated);
         }
     }

@@ -31,7 +31,7 @@ namespace Business.Concrete
             return new SuccessResult(Messages.Deleted);
         }
 
-        public IDataResult<Customer> get(int customerId)
+        public IDataResult<Customer> GetByCustomerId(int customerId)
         {
             return new SuccessDataResult<Customer>(_customerDal.Get(c => c.Id == customerId));
         }

@@ -29,7 +29,7 @@ namespace Business.Concrete
             return new SuccessResult(Messages.Deleted);
         }
 
-        public IDataResult<Rental> Get(int id)
+        public IDataResult<Rental> GetByRental(int id)
         {
             return new SuccessDataResult<Rental>(_rentalDal.Get(r => r.Id == id));
         }
