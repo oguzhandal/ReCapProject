@@ -18,7 +18,7 @@ namespace Business.Concrete
         {
             _customerDal = customerDal;
         }
-        []
+        
         public IResult Add(Customer customer)
         {
             _customerDal.Add(customer);
