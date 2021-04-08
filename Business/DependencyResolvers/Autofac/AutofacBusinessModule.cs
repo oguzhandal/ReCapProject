@@ -3,7 +3,11 @@ using Autofac.Extras.DynamicProxy;
 using Business.Abstract;
 using Business.Concrete;
 using Castle.DynamicProxy;
+using Core.Utilities.FileHelper.Abstract;
+using Core.Utilities.FileHelper.Concrete;
 using Core.Utilities.Interceptors;
+using Core.Utilities.Security.JWT;
+using Core.Utilities.Security.JWT.Abstract;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 using System;
@@ -36,6 +40,15 @@ namespace Business.DependencyResolvers.Autofac
 
             builder.RegisterType<UserManager>().As<IUserService>().SingleInstance();
             builder.RegisterType<EfUserDal>().As<IUserDal>().SingleInstance();
+
+            builder.RegisterType<AuthManager>().As<IAuthService>();
+            builder.RegisterType<JwtHelper>().As<ITokenHelper>();
+
+            builder.RegisterType<UserManager>().As<IUserService>();
+            builder.RegisterType<EfUserDal>().As<IUserDal>();
+
+            builder.RegisterType<FileHelper>().As<IFileHelper>().SingleInstance();
+
 
 
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();

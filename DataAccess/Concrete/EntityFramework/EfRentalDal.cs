@@ -7,36 +7,40 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Text;
 using System.Linq;
+using Entities.DTOs.RentalDTOs;
 
 namespace DataAccess.Concrete.EntityFramework
 {
     public class EfRentalDal : EfEntityRepositoryBase<Rental, ReCapDatabaseContext>, IRentalDal
     {
-        public List<CarRentalDetailDto> GetCarRentalDetails(Expression<Func<Rental, bool>> filter = null)
+        public List<GetRentalDetailDTO> GetRentalDetails()
         {
             using (ReCapDatabaseContext context = new ReCapDatabaseContext())
             {
-                var result = from rnt in filter is null ? context.Rentals : context.Rentals.Where(filter)
-                             join cr in context.Cars on rnt.CarId equals cr.CarId
-                             join col in context.Colors on cr.ColorId equals col.ColorId
-                             join brd in context.Brands on cr.BrandId equals brd.BrandId
-                             join cus in context.Customers on rnt.CustomerId equals cus.Id
-                             join usr in context.Users on cus.UserId equals usr.Id
-                             select new CarRentalDetailDto
-                             {
-                                 RentalId = rnt.Id,
-                                 CustomerName = usr.FirstName,
-                                 CustomerLastName = usr.LastName,
-                                 CustomerCompanyName = cus.CompanyName,
-                                 CarName = cr.Description,
-                                 BrandName = brd.BrandName,
-                                 ColorName = col.ColorName,
-                                 DailyPrice = cr.DailyPrice,
-                                 RentDate = rnt.RentDate,
-                                 ReturnDate = rnt.ReturnDate
-                             };
+                var result = (from rent in context.Rentals
+                              join customer in context.Users
+                              on rent.CustomerId equals customer.Id
+                              join car in context.Cars
+                              on rent.CarId equals car.CarId
+                              select new GetRentalDetailDTO
+                              {
+                                  CarName = car.CarName,
+                                  CustomerName = customer.FirstName + " " + customer.LastName,
+                                  Id = rent.Id,
+                                  RentDate = rent.RentDate,
+                                  ReturnDate = rent.ReturnDate
+                              }
+                              ).ToList();
+                return result;
+            }
+        }
 
-                return result.ToList();
+        public bool IsCarAvailable(int id)
+        {
+            using (ReCapDatabaseContext context = new ReCapDatabaseContext())
+            {
+                var result = context.Rentals.Any(x => x.Id == id && x.ReturnDate == null);
+                return result;
             }
         }
     }

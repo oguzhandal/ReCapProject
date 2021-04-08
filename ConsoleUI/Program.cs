@@ -1,4 +1,5 @@
 ﻿using Business.Concrete;
+using Core.Entities.Concrete;
 using DataAccess.Concrete.EntityFramework;
 using Entites.Concrete;
 using Entities.Concrete;
@@ -28,7 +29,7 @@ namespace ConsoleUI
         {
             RentalManager rentalManager = new RentalManager(new EfRentalDal());
             rentalManager.Add(new Rental { CarId = 5, CustomerId = 1, RentDate = DateTime.Now, ReturnDate = DateTime.Now.AddDays(7) });
-            rentalManager.Add(new Rental { CarId = 5, CustomerId = 2, RentDate = DateTime.Now, ReturnDate =DateTime.Now.AddDays(1) });
+            rentalManager.Add(new Rental { CarId = 5, CustomerId = 2, RentDate = DateTime.Now, ReturnDate = DateTime.Now.AddDays(1) });
             rentalManager.Add(new Rental { CarId = 5, CustomerId = 3, RentDate = DateTime.Now, ReturnDate = DateTime.Now.AddDays(2) });
 
         }
@@ -38,10 +39,10 @@ namespace ConsoleUI
             UserManager userManager = new UserManager(new EfUserDal());
             List<User> userList = new List<User>
             {
-                new User { FirstName = "Dünya", LastName = "dal", Email = "Dunya@gmail.com", Password = "DunyaDal" },
-                new User{FirstName="Bulut",LastName="yılmaz",Email="bulutyılmaz@hotmail.com",Password="bulutyılmaz"},
-                new User{FirstName="Deniz",LastName="Özgür",Email="DOzgur@hotmail.com",Password="ozgurDeniz"},
-                new User{FirstName="Özge",LastName="Doğan",Email="OzgeDogan@hotmail.com",Password="OzgeDogan"},
+                new User { FirstName = "Dünya", LastName = "dal", Email = "Dunya@gmail.com" },
+                new User{FirstName="Bulut",LastName="yılmaz",Email="bulutyılmaz@hotmail.com"},
+                new User{FirstName="Deniz",LastName="Özgür",Email="DOzgur@hotmail.com"},
+                new User{FirstName="Özge",LastName="Doğan",Email="OzgeDogan@hotmail.com"},
 
 
             };

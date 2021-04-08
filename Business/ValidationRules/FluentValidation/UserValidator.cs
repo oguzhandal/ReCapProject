@@ -1,4 +1,5 @@
-﻿using Entities.Concrete;
+﻿using Core.Entities.Concrete;
+using Entities.Concrete;
 using FluentValidation;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ namespace Business.ValidationRules.FluentValidation
             RuleFor(u => u.Email).EmailAddress().WithMessage("E-mail adresi girmek zorunludur.");
             RuleFor(u => u.FirstName).NotEmpty().MinimumLength(2);
             RuleFor(u => u.LastName).MinimumLength(2);
-            RuleFor(u => u.Password).NotNull().MinimumLength(4);
+            RuleFor(u => u.PasswordHash).NotEmpty();
 
         }
     }
