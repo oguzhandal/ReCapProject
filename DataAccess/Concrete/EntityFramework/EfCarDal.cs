@@ -14,7 +14,7 @@ namespace DataAccess.Concrete.EntityFramework
 {
     public class EfCarDal : EfEntityRepositoryBase<Car, ReCapDatabaseContext>, ICarDal
     {
-        public List<CarDetailsDTO> GetCarDetails(Expression<Func<Car, bool>> filter = null)
+        public List<CarDetailDTO> GetCarDetails(Expression<Func<Car, bool>> filter = null)
         {
             using (ReCapDatabaseContext context = new ReCapDatabaseContext())
             {
@@ -23,7 +23,7 @@ namespace DataAccess.Concrete.EntityFramework
                              on car.BrandId equals brand.BrandId
                              join color in context.Colors
                              on car.ColorId equals color.ColorId
-                             select new CarDetailsDTO
+                             select new CarDetailDTO
                              {
                                  BrandName = brand.BrandName,
                                  CarName = car.CarName,

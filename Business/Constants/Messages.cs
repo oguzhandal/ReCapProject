@@ -63,6 +63,7 @@ namespace Business.Constants
         public static string SuccessGetByUserMail = "Kullanıcının Mail Adresi Başarıyla Sorgulandı.";
         public static string SuccessGetUserClaims = "Kullanıcının Claimleri Başarıyla Sorgulandı.";
         public static string ErrorGetByUserMail = "Sistemde Bu Kullanıcıya Ait Mail Adresi Bulunamamaktadır.";
+        public static string CarCountOfBrandError = "Markadaki maksimum araç sayısını aştınız ";
     }
 }
 
