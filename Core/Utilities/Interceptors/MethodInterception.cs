@@ -22,6 +22,7 @@ namespace Core.Utilities.Interceptors
             {
                 isSuccess = false;
                 OnException(invocation, e);
+                Console.WriteLine(e.Message);
                 throw;
             }
             finally
