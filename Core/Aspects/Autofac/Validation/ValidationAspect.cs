@@ -1,4 +1,5 @@
 ﻿using Castle.DynamicProxy;
+using Core.Constants;
 using Core.CrossCuttingConcerns.Validation;
 using Core.Utilities.Interceptors;
 using FluentValidation;
@@ -17,7 +18,7 @@ namespace Core.Aspects.Autofac.Validation
         {
             if (!typeof(IValidator).IsAssignableFrom(validatorType))
             {
-                throw new System.Exception("Bu bir doğrulama sınıfı değildir.");
+                throw new System.Exception(AspectMessages.WrongValidationType);
             }
 
             _validatorType = validatorType;

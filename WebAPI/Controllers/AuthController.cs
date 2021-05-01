@@ -1,5 +1,5 @@
 ﻿using Business.Abstract;
-using Entities.DTOs.UserDTOs;
+using Entities.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
@@ -21,7 +21,7 @@ namespace WebAPI.Controllers
             var userToLogin = _authService.Login(userForLoginDto);
             if (!userToLogin.Success)
             {
-                return BadRequest(userToLogin.Message);
+                return BadRequest(userToLogin);
             }
 
             var result = _authService.CreateAccessToken(userToLogin.Data);
@@ -39,14 +39,15 @@ namespace WebAPI.Controllers
             var userExists = _authService.UserExists(userForRegisterDto.Email);
             if (!userExists.Success)
             {
-                return BadRequest(userExists);
+                return BadRequest(userExists.Message);
             }
-            var registerResult = _authService.Register(userForRegisterDto);
-            if (registerResult.Success)
+            var registerResult = _authService.Register(userForRegisterDto, userForRegisterDto.Password);
+            var result = _authService.CreateAccessToken(registerResult.Data);
+            if (result.Success)
             {
-                return Ok(registerResult);
+                return Ok(result.Data);
             }
-            return BadRequest(registerResult);
+            return BadRequest(result.Message);
         }
     }
 }
