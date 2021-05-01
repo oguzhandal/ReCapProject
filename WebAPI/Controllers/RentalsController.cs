@@ -1,11 +1,6 @@
 ﻿using Business.Abstract;
 using Entities.Concrete;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace WebAPI.Controllers
 {
@@ -19,6 +14,7 @@ namespace WebAPI.Controllers
         {
             _rentalService = rentalService;
         }
+
         [HttpPost("add")]
         public IActionResult Add(Rental rental)
         {
@@ -29,6 +25,7 @@ namespace WebAPI.Controllers
             }
             return BadRequest(result);
         }
+        
         [HttpPost("update")]
         public IActionResult Update(Rental rental)
         {
@@ -39,6 +36,7 @@ namespace WebAPI.Controllers
             }
             return BadRequest(result);
         }
+        
         [HttpDelete("delete")]
         public IActionResult Delete(Rental rental)
         {
@@ -49,6 +47,7 @@ namespace WebAPI.Controllers
             }
             return BadRequest(result);
         }
+        
         [HttpGet("getall")]
         public IActionResult GetAll()
         {
@@ -59,10 +58,88 @@ namespace WebAPI.Controllers
             }
             return BadRequest(result);
         }
-        [HttpGet("getbyrentalid")]
-        public IActionResult GetByrentalId(int id)
+        
+        [HttpGet("getalldetails")]
+        public IActionResult GetAllDetails()
         {
-            var result = _rentalService.GetByRental(id);
+            var result = _rentalService.GetAllRentalDetails();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+        
+        [HttpGet("getbyid")]
+        public IActionResult GetById(int rentalId)
+        {
+            var result = _rentalService.GetById(rentalId);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("getdetailsbyid")]
+        public IActionResult GetDetailsById(int rentalId)
+        {
+            var result = _rentalService.GetDetailsById(rentalId);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("getbycarid")]
+        public IActionResult GetByCarId(int id)
+        {
+            var result = _rentalService.GetRentalsByCarId(id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("getdetailbycarid")]
+        public IActionResult GetDetailByCarId(int id)
+        {
+            var result = _rentalService.GetRentalDetailsByCarId(id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("getbycustomerid")]
+        public IActionResult GetByCustomerId(int id)
+        {
+            var result = _rentalService.GetRentalsByCustomerId(id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("getdetailbycustomerid")]
+        public IActionResult GetDetailByCustomerId(int id)
+        {
+            var result = _rentalService.GetRentalsByCustomerId(id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpPost("isrentable")]
+        public IActionResult IsRentable(Rental rental, bool isUpdate = false)
+        {
+            var result = _rentalService.IsRentableCar(rental, isUpdate);
             if (result.Success)
             {
                 return Ok(result);

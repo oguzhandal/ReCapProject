@@ -1,17 +1,16 @@
 ﻿using Core.DataAccess;
 using Entities.Concrete;
 using Entities.DTOs;
-using Entities.DTOs.RentalDTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using System.Text;
 
 namespace DataAccess.Abstract
 {
     public interface IRentalDal : IEntityRepository<Rental>
     {
-        bool IsCarAvailable(int id);
-        List<GetRentalDetailDTO> GetRentalDetails();
+        List<RentalDetailDto> GetAllDetails();
+        List<RentalDetailDto> GetAllDetailsBy(Expression<Func<Rental, bool>> filter);
+        RentalDetailDto GetDetails(Expression<Func<Rental, bool>> filter);
     }
 }

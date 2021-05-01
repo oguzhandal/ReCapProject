@@ -1,47 +1,89 @@
 ﻿using Core.DataAccess.EntityFramework;
 using DataAccess.Abstract;
 using Entities.Concrete;
-using System;
 using Entities.DTOs;
+using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Text;
 using System.Linq;
-using Entities.DTOs.RentalDTOs;
+using System.Linq.Expressions;
 
 namespace DataAccess.Concrete.EntityFramework
 {
     public class EfRentalDal : EfEntityRepositoryBase<Rental, ReCapDatabaseContext>, IRentalDal
     {
-        public List<GetRentalDetailDTO> GetRentalDetails()
+        public List<RentalDetailDto> GetAllDetails()
         {
             using (ReCapDatabaseContext context = new ReCapDatabaseContext())
             {
-                var result = (from rent in context.Rentals
-                              join customer in context.Users
-                              on rent.CustomerId equals customer.Id
-                              join car in context.Cars
-                              on rent.CarId equals car.CarId
-                              select new GetRentalDetailDTO
-                              {
-                                  CarName = car.CarName,
-                                  CustomerName = customer.FirstName + " " + customer.LastName,
-                                  Id = rent.Id,
-                                  RentDate = rent.RentDate,
-                                  ReturnDate = rent.ReturnDate
-                              }
-                              ).ToList();
-                return result;
+                var result = from r in context.Rentals
+                             join c in context.Customers
+                             on r.CustomerId equals c.Id
+                             join cr in context.Cars
+                             on r.CarId equals cr.CarId
+                             join b in context.Brands
+                             on cr.BrandId equals b.Id
+                             join cl in context.Colors
+                             on cr.ColorId equals cl.Id
+                             join u in context.Users
+                             on c.UserId equals u.Id
+                             select new RentalDetailDto
+                             {
+                                 Id = r.Id,
+                                 CarName = cr.CarName,
+                                 BrandName = b.Name,
+                                 ColorName = cl.Name,
+                                 FirstName = u.FirstName,
+                                 LastName = u.LastName,
+                                 Email = u.Email,
+                                 CompanyName = c.CompanyName,
+                                 RentStartDate = r.RentStartDate,
+                                 RentEndDate = r.RentEndDate,
+                                 ReturnDate = r.ReturnDate,
+                                 Amount = r.Amount,
+                                 PayConfirm = r.PayConfirm
+                             };
+                return result.ToList();
             }
         }
 
-        public bool IsCarAvailable(int id)
+        public List<RentalDetailDto> GetAllDetailsBy(Expression<Func<Rental, bool>> filter)
         {
             using (ReCapDatabaseContext context = new ReCapDatabaseContext())
             {
-                var result = context.Rentals.Any(x => x.Id == id && x.ReturnDate == null);
-                return result;
+                var result = from r in context.Rentals.Where(filter)
+                             join c in context.Customers
+                             on r.CustomerId equals c.Id
+                             join u in context.Users
+                             on c.Id equals u.Id
+                             join cr in context.Cars
+                             on r.CarId equals cr.CarId
+                             join b in context.Brands
+                             on cr.BrandId equals b.Id
+                             join cl in context.Colors
+                             on cr.ColorId equals cl.Id
+                             select new RentalDetailDto
+                             {
+                                 Id = r.Id,
+                                 CarName = cr.CarName,
+                                 BrandName = b.Name,
+                                 ColorName = cl.Name,
+                                 FirstName = u.FirstName,
+                                 LastName = u.LastName,
+                                 Email = u.Email,
+                                 CompanyName = c.CompanyName,
+                                 RentStartDate = r.RentStartDate,
+                                 RentEndDate = r.RentEndDate,
+                                 ReturnDate = r.ReturnDate,
+                                 Amount = r.Amount,
+                                 PayConfirm = r.PayConfirm
+                             };
+                return result.ToList();
             }
+        }
+
+        public RentalDetailDto GetDetails(Expression<Func<Rental, bool>> filter)
+        {
+            return GetAllDetailsBy(filter).SingleOrDefault();
         }
     }
 }

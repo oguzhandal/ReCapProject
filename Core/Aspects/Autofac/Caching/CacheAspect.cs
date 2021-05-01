@@ -7,13 +7,10 @@ using System.Linq;
 
 namespace Core.Aspects.Autofac.Caching
 {
-    /// <summary>
-    /// CacheAspect
-    /// </summary>
     public class CacheAspect : MethodInterception
     {
         private readonly int _duration;
-        private readonly ICacheManager _cacheManager;
+        private  ICacheManager _cacheManager;
         public CacheAspect(int duration = 60)
         {
             _duration = duration;

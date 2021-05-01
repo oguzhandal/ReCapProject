@@ -6,7 +6,7 @@ using Core.Utilities.Result.Concrete;
 using Core.Utilities.Security.Hashing;
 using Core.Utilities.Security.JWT;
 using Core.Utilities.Security.JWT.Abstract;
-using Entities.DTOs.UserDTOs;
+using Entities.DTOs;
 
 namespace Business.Concrete
 {
@@ -21,9 +21,10 @@ namespace Business.Concrete
             _tokenHelper = tokenHelper;
         }
 
-        public IDataResult<User> Register(UserForRegisterDto userForRegisterDto)
+        public IDataResult<User> Register(UserForRegisterDto userForRegisterDto, string password)
         {
-            HashingHelper.CreatePasswordHash(userForRegisterDto.Password, out byte[] passwordHash, out byte[] passwordSalt);
+            byte[] passwordHash, passwordSalt;
+            HashingHelper.CreatePasswordHash(password, out passwordHash, out passwordSalt);
             var user = new User
             {
                 Email = userForRegisterDto.Email,
@@ -40,14 +41,14 @@ namespace Business.Concrete
         public IDataResult<User> Login(UserForLoginDto userForLoginDto)
         {
             var userToCheck = _userService.GetByMail(userForLoginDto.Email);
-            if (!userToCheck.Success)
+            if (userToCheck.Data == null)
             {
-                return new ErrorDataResult<User>(userToCheck.Data, Messages.UserNotFound);
+                return new ErrorDataResult<User>(Messages.UserNotFound);
             }
 
             if (!HashingHelper.VerifyPassowrdHash(userForLoginDto.Password, userToCheck.Data.PasswordHash, userToCheck.Data.PasswordSalt))
             {
-                return new ErrorDataResult<User>(userToCheck.Data, Messages.PasswordError);
+                return new ErrorDataResult<User>(Messages.PasswordError);
             }
 
             return new SuccessDataResult<User>(userToCheck.Data, Messages.SuccessfulLogin);
@@ -55,8 +56,8 @@ namespace Business.Concrete
 
         public IResult UserExists(string email)
         {
-            var result = _userService.GetByMail(email);
-            if (result.Success)
+            
+            if (_userService.GetByMail(email).Data!=null)
             {
                 return new ErrorResult(Messages.UserAlreadyExists);
             }
@@ -65,8 +66,8 @@ namespace Business.Concrete
 
         public IDataResult<AccessToken> CreateAccessToken(User user)
         {
-            var claims = _userService.GetClaims(user);
-            var accessToken = _tokenHelper.CreateToken(user, claims.Data);
+            var claims = _userService.GetClaims(user).Data;
+            var accessToken = _tokenHelper.CreateToken(user, claims);
             return new SuccessDataResult<AccessToken>(accessToken, Messages.AccessTokenCreated);
         }
     }
